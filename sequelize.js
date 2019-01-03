@@ -37,10 +37,10 @@ Features.hasMany(Permission, {foreignKey: 'featureId', sourceKey: 'id'});
 
 
 
-// sequelize.sync({ alter: true })
-//     .then(() => {
-//         console.log(`Database & tables created!`)
-//     });
+sequelize.sync()
+    .then(() => {
+        console.log(`Database & tables created!`)
+    });
 module.exports = {
     User,
     Role,
