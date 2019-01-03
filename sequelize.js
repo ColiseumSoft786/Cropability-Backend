@@ -7,7 +7,7 @@ const PermissionsModel = require('./models/permissions');
 
 
 
-const sequelize = new Sequelize('cropability', 'root', 'root1234', {
+const sequelize = new Sequelize('cropability', 'tania', 'Abuzar@1047', {
     host: 'localhost',
     dialect: 'mysql',
     pool: {
