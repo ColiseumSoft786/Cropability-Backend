@@ -4,6 +4,8 @@ var Sequelize = require('sequelize');
 const { User, Role, Documents } = require('../sequelize');
 var passwordHash = require('password-hash');
 var multer = require('multer');
+var fs = require('fs');
+
 
 /* GET users listing. */
 router.get('/list/:id', function(req, res, next) {
@@ -169,15 +171,27 @@ router.post('/document/:id', function(req, res) {
     });
 });
 router.get('/document/delete/:id/:userId', function(req, res) {
-  Documents.destroy({
-    where: {id: req.params.id}
-  }).then(doc => {
-    Documents.findAll({
-      where: {userId: req.params.userId}
-    }).then(docs => {
-      res.json(docs);
+  Documents.findById(req.params.id).then(doc => {
+    fs.exists('./uploads/' + doc['photo'], function(exists) {
+      if(exists) {
+        console.log('File exists. Deleting now ...');
+        fs.unlink('./uploads/' + doc['photo']);
+          Documents.destroy({
+            where: {id: req.params.id}
+          }).then(doc => {
+            Documents.findAll({
+              where: {userId: req.params.userId}
+            }).then(docs => {
+              res.json(docs);
+            });
+          });
+      } else {
+        console.log('File not found, so not deleting.');
+      }
     });
-  });
+
+  })
+
 });
 
 
