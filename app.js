@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var config = require('./config');
 var jwt = require('jsonwebtoken');
-
+var cors = require('cors')
+var multer = require('multer');
 
 var indexRouter = require('./routes/index',);
 var usersRouter = require('./routes/users');
@@ -18,7 +19,9 @@ var rolesRouter = require('./routes/roles');
 
 
 var app = express();
+app.use(cors());
 app.set('Secret', config.secret);
+app.use(express.static(__dirname + '/uploads'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -78,6 +81,11 @@ var checkTokkenFilter = function(req, res, next) {
 }
 app.use(checkTokkenFilter);
 app.use(session({secret: 'cropability1047'}));
+
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
