@@ -10,14 +10,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors')
 var multer = require('multer');
 
-var indexRouter = require('./routes/index',);
-var usersRouter = require('./routes/users');
-var accountRouter = require('./routes/accounts');
-var settingRouter = require('./routes/settings');
-var rolesRouter = require('./routes/roles');
-
-
-
+// Express Start
 var app = express();
 app.use(cors());
 app.set('Secret', config.secret);
@@ -25,13 +18,14 @@ app.use(express.static(__dirname + '/uploads'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+// Header For Access
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Token");
     next();
 });
+// Token MiddleWares
 var checkTokken = function(req, res, next) {
   // check header for the token
   var token = req.headers['access-token'];
@@ -69,7 +63,6 @@ var verifyTokken = function(req, res) {
 
   }
 };
-
 var checkTokkenFilter = function(req, res, next) {
   if(req._parsedUrl.pathname === '/tokenverify') {
       verifyTokken(req, res);
@@ -82,10 +75,6 @@ var checkTokkenFilter = function(req, res, next) {
 app.use(checkTokkenFilter);
 app.use(session({secret: 'cropability1047'}));
 
-
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -95,11 +84,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/account',accountRouter);
-app.use('/settings',settingRouter);
-app.use('/roles',rolesRouter);
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/account',require('./routes/accounts'));
+app.use('/settings',require('./routes/settings'));
+app.use('/roles',require('./routes/roles'));
+app.use('/fields',require('./routes/fields'));
+
 
 
 

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passwordHash = require('password-hash');
-const { User, Role } = require('../sequelize');
+const { User, Role, Permission, Field } = require('../sequelize');
 var jwt = require('jsonwebtoken');
 var app = express();
 var config = require('../config');
@@ -21,10 +21,16 @@ router.post('/login', function(req, res, next) {
                       var token = jwt.sign(payload, config.secret, {
                             expiresIn: 5440 // expires in 24 hours
                       });
-                      res.json({
-                        message: 'authentication done ',
-                        token: token,
-                        user: fetch
+                      Permission.findAll({ where: {roleId: fetch.roleId}, include:[{ all:true }]}).then(perm => {
+                        Field.findAll().then(field => {
+                            res.json({
+                                message: 'authentication done',
+                                token: token,
+                                user: fetch,
+                                perm: perm,
+                                field: field
+                              });
+                        });
                       });
                 }else{
                     res.json(null);
@@ -98,8 +104,11 @@ router.get('/logout', function(req, res) {
         } else {
           res.send(200);
         }
-      });
-    
+      }); 
 });
-
+router.get('/getRoles/:id', function(req, res) {
+    Permission.findAll({ where: {roleId: req.params.id}, include:[{ all:true }]}).then(perm => {
+        res.json(perm);
+      });
+});
 module.exports = router;

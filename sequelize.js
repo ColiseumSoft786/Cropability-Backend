@@ -5,6 +5,7 @@ const SettingModel = require('./models/settings');
 const FeaturesModel = require('./models/features');
 const PermissionsModel = require('./models/permissions');
 const DocumentsModel = require('./models/documents');
+const FieldModel = require('./models/fields');
 
 const sequelize = new Sequelize('cropability', 'root', 'root1234', {
     host: 'localhost',
@@ -23,6 +24,7 @@ const Setting = SettingModel(sequelize, Sequelize);
 const Permission = PermissionsModel(sequelize, Sequelize);
 const Features = FeaturesModel(sequelize, Sequelize);
 const Documents = DocumentsModel(sequelize, Sequelize);
+const Field = FieldModel(sequelize, Sequelize);
 
 
 // User and Role
@@ -50,5 +52,6 @@ module.exports = {
     Setting,
     Features,
     Permission,
-    Documents
+    Documents,
+    Field
 };
