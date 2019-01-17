@@ -90,7 +90,8 @@ app.use('/account',require('./routes/accounts'));
 app.use('/settings',require('./routes/settings'));
 app.use('/roles',require('./routes/roles'));
 app.use('/fields',require('./routes/fields'));
-
+app.use('/reservoir',require('./routes/reservoir'));
+app.use('/material',require('./routes/materials'));
 
 
 
