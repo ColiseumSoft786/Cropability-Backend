@@ -22,6 +22,12 @@ router.post('/create/image', function(req, res, next) {
 });
 router.post('/create', function(req, res, next) {
     let data = req.body;
+    let expiry;
+    if(data['expiry'] == ''){
+        expiry = new Date();
+    }else{
+        expiry = new Date(data['expiry']);
+    }
     Material.create({
         name: data['name'],
         category: data['category'],
@@ -29,7 +35,7 @@ router.post('/create', function(req, res, next) {
         unit: data['unit'],
         producer: data['producer'],
         note: data['notes'],
-        expiry: new Date(data['expiry']),
+        expiry: expiry,
         germinationRate: data['germination_rate'],
         image: data['file'],
         type: data['type'],
@@ -41,6 +47,12 @@ router.post('/create', function(req, res, next) {
 });
 router.post('/edit/:id', function(req, res, next) {
     let data = req.body;
+    let expiry;
+    if(data['expiry'] == ''){
+        expiry = new Date();
+    }else{
+        expiry = new Date(data['expiry']);
+    }
     Material.update({
         name: data['name'],
         category: data['category'],
@@ -48,7 +60,7 @@ router.post('/edit/:id', function(req, res, next) {
         unit: data['unit'],
         producer: data['producer'],
         note: data['notes'],
-        expiry: new Date(data['expiry']),
+        expiry: expiry,
         germinationRate: data['germination_rate'],
         image: data['file'],
         type: data['type'],

@@ -92,6 +92,8 @@ app.use('/roles',require('./routes/roles'));
 app.use('/fields',require('./routes/fields'));
 app.use('/reservoir',require('./routes/reservoir'));
 app.use('/material',require('./routes/materials'));
+app.use('/area',require('./routes/areas'));
+app.use('/zone',require('./routes/zones'));
 
 
 
